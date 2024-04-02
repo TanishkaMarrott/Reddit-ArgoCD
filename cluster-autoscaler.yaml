@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reddit-clone-cluster-autoscaler
+  namespace: default
+  labels:
+    app: reddit-clone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reddit-clone
+  template:
+    metadata:
+      labels:
+        app: reddit-clone
+    spec:
+      serviceAccountName: cluster-autoscaler
+      containers:
+      - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.29.3 # Replace <VERSION> with the compatible version
+        name: cluster-autoscaler
+        resources:
+          limits:
+            cpu: 100m
+            memory: 300Mi
+          requests:
+            cpu: 100m
+            memory: 300Mi
+        command:
+          - ./cluster-autoscaler
+          - --v=4
+          - --stderrthreshold=info
+          - --cloud-provider=aws
+          - --skip-nodes-with-local-storage=false
+          - --expander=least-waste
+          - --nodes=1:10:on-demand 
+          - --nodes=1:10:spot
+        env:
+          - name: AWS_REGION
+            value: "ap-northeast-1" 
+        volumeMounts:
+          - name: ssl-certs
+            mountPath: /etc/ssl/certs/ca-certificates.crt
+            readOnly: true
+      volumes:
+      - name: ssl-certs
+        hostPath:
+          path: /etc/ssl/certs/ca-certificates.crt
