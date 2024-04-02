@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reddit-clone-cluster-autoscaler
-  namespace: default
+  name: cluster-autoscaler
+  namespace: kube-system
   labels:
-    app: reddit-clone
+    app: cluster-autoscaler
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: reddit-clone
+      app: cluster-autoscaler
   template:
     metadata:
       labels:
-        app: reddit-clone
+        app: cluster-autoscaler
     spec:
       serviceAccountName: cluster-autoscaler
       containers:
