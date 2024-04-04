@@ -7,6 +7,7 @@ Hi! This repository comprises the Kubernetes manifests required for deploying th
 - **Service YAMLs**: Specifies how to access the Reddit Clone pods, using Kubernetes services to route traffic.
 - **Ingress YAMLs**: Manages external access to the services, including URL routing and load balancing.
 - **HPA YAMLs**: Horizontal Pod Autoscaler configurations to automatically scale the application based on CPU or memory usage.
+- **Cluster Autoscaler YAML**: Scales the nodes up or down, based on insufficient resources for the pods, or node utilisation.
 
 There's been a strong emphasis on high availability, scalability, performance and security of the Reddit Clone application within the Kubernetes environment. This setup aims to streamline the deployment process, facilitate continuous integration and delivery, and support efficient resource management.
 
